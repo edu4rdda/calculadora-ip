@@ -3,7 +3,6 @@ import ipaddress
 
 #streamlit run calculadora_ip.py
 
-
 #separação de octetos
 def separar_octetos(endereco):
     octetos = endereco.split(".")
@@ -71,9 +70,11 @@ st.title("Calculadora IP")
 endereco = st.text_input("Digite o Endereço IP (ex.: 192.168.0.1)")
 mascara = st.number_input("Digite a Máscara de Sub-rede (ex.: 25)", value=1, step=1, max_value=32, min_value=1)
 
-redes = [["Parâmentro", "Valor"]]
+# Criando o botão de cálculo
+calcular = st.button("Calcular")
 
-if endereco:
+if calcular and endereco:
+    redes = [["Parâmetro", "Valor"]]
     octetos = separar_octetos(endereco)
     if isinstance(octetos, list):
         completa = ipaddress.IPv4Network(f"{endereco}/{mascara}", strict=False)
@@ -92,4 +93,4 @@ if endereco:
         redes.append(["Endereço Público/Privado", tipo])
     else:
         redes.append(["Erro", octetos])
-st.table(redes)
+    st.table(redes)
